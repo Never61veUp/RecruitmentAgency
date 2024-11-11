@@ -10,7 +10,7 @@ abstract class Controller
 
     public function view(string $view): void
     {
-        $this->view->render($view);
+        $this->view->renderView($view);
     }
 
     public function setView(View $view): void
