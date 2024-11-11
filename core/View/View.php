@@ -21,6 +21,12 @@ class View
 
     public function renderComponent(string $name): void
     {
+        $componentPath = APP_PATH."/views/components/$name.php";
+        if (! file_exists($componentPath)) {
+            echo "Component $name does not exist";
+
+            return;
+        }
         include_once APP_PATH."/views/components/$name.php";
     }
 }

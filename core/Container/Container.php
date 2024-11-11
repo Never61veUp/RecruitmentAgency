@@ -22,8 +22,8 @@ class Container
     private function registerServices(): void
     {
         $this->view = new View;
-        $this->router = new Router($this->view);
         $this->request = Request::createFromGlobals();
+        $this->router = new Router($this->view, $this->request);
 
     }
 }
