@@ -13,6 +13,19 @@ class OfferController extends Controller
 
     public function storeOffer(): void
     {
-        dd($this->request()->input('titl1e'));
+        //        dd($this->getSession());
+
+        $validations = $this->request()->validate([
+            'title' => ['required', 'min:3', 'max:25', 'isSpecChar:no'],
+        ]);
+        if (! $validations) {
+            foreach ($this->request()->getErrors() as $field => $error) {
+                $this->session->set($field, $error);
+
+            }
+            $this->redirect('/employer/offers/add');
+        } else {
+            dd('Validation succeeded');
+        }
     }
 }

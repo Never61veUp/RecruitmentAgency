@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Core\Validator;
 
 class Validator
 {
@@ -39,28 +39,41 @@ class Validator
         switch ($ruleName) {
             case 'required':
                 if (empty($value)) {
-                    return 'This field is required.';
+                    return "Field '$key' is required.";
                 }
                 break;
             case 'min':
                 if (strlen($value) < $ruleValue) {
-                    return 'This field must be at least '.$ruleValue.' characters.';
+                    return "Field '$key' must be at least '$ruleValue' characters.";
                 }
                 break;
             case 'max':
                 if (strlen($value) > $ruleValue) {
-                    return 'This field must be at most '.$ruleValue.' characters.';
+                    return "Field '$key' must be at most '$ruleValue' characters.";
 
                 }
                 break;
             case 'email':
                 if (! filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                    return 'This field must be a valid email address.';
+                    return "Field '$key' must be a valid email address.";
+                }
+                break;
+            case 'isSpecChar':
+                if ($ruleValue == 'no' && $this->hasSpecialChars($value) > 0) {
+                    return "Field '$key' must not contain special characters.";
+                }
+                if ($ruleValue == 'yes' && $this->hasSpecialChars($value) < 1) {
+                    return "Field '$key' must contain special characters.";
                 }
                 break;
 
         }
 
         return false;
+    }
+
+    private function hasSpecialChars($string): false|int
+    {
+        return preg_match('/[^a-zA-Z0-9]/', $string);
     }
 }

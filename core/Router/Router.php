@@ -3,7 +3,9 @@
 namespace App\Core\Router;
 
 use App\Core\Controller\Controller;
+use App\Core\Http\Redirect;
 use App\Core\Http\Request;
+use App\Core\Session\Session;
 use App\Core\View\View;
 use JetBrains\PhpStorm\NoReturn;
 
@@ -14,7 +16,7 @@ class Router
         'POST' => [],
     ];
 
-    public function __construct(private View $view, private Request $request)
+    public function __construct(private View $view, private Request $request, private Redirect $redirect, private Session $session)
     {
 
         $this->initRouts();
@@ -34,7 +36,10 @@ class Router
             $controller = new $controller;
             call_user_func([$controller, 'setView'], $this->view);
             call_user_func([$controller, 'setRequest'], $this->request);
+            call_user_func([$controller, 'setRedirect'], $this->redirect);
+            call_user_func([$controller, 'setSession'], $this->session);
             call_user_func([$controller, $action]);
+
         } else {
             call_user_func($route->getAction());
         }

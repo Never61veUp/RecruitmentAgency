@@ -3,9 +3,14 @@
 namespace App\Core\View;
 
 use App\Core\Exceptions\ViewNotFoundException;
+use App\Core\Session\Session;
 
 class View
 {
+    function __construct(private Session $session)
+    {
+        
+    }
     public function renderView(string $name): void
     {
 
@@ -13,9 +18,7 @@ class View
         if (! file_exists($viewPath)) {
             throw new ViewNotFoundException("View $name does not exist");
         }
-        extract([
-            'view' => $this,
-        ]);
+        extract($this->data());
         include_once $viewPath;
     }
 
@@ -28,5 +31,12 @@ class View
             return;
         }
         include_once APP_PATH."/views/components/$name.php";
+    }
+    private function data() : array
+    {
+        return [
+            'view' => $this,
+            'session' => $this->session
+        ];
     }
 }
