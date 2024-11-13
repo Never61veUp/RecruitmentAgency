@@ -31,7 +31,7 @@ class Container
     private function registerServices(): void
     {
         $this->session = new Session;
-        $this->view = new View;
+        $this->view = new View($this->session);
         $this->request = Request::createFromGlobals();
         $this->redirect = new Redirect;
 

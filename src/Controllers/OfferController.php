@@ -19,15 +19,13 @@ class OfferController extends Controller
             'title' => ['required', 'min:3', 'max:25', 'isSpecChar:no'],
         ]);
         if (! $validations) {
-
             foreach ($this->request()->getErrors() as $field => $error) {
                 $this->session->set($field, $error);
 
             }
-            dd($_SESSION);
             $this->redirect('/employer/offers/add');
         } else {
-            dd('Validation succeededd');
+            dd('Validation succeeded');
         }
     }
 }
