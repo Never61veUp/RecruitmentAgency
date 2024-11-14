@@ -2,7 +2,7 @@
 
 namespace App\Core\Http;
 
-class Redirect
+class Redirect implements IRedirect
 {
     public function to(string $url)
     {

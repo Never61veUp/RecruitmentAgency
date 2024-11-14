@@ -2,7 +2,7 @@
 
 namespace App\Core\Validator;
 
-class Validator
+class Validator implements \App\Core\Validator\IValidator
 {
     private array $errors = [];
 

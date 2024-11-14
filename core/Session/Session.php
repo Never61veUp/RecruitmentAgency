@@ -2,7 +2,7 @@
 
 namespace App\Core\Session;
 
-class Session
+class Session implements ISession
 {
     public function __construct()
     {
@@ -44,7 +44,7 @@ class Session
         return isset($_SESSION[$key]);
     }
 
-    public function all()
+    public function all(): array
     {
         return $_SESSION;
     }

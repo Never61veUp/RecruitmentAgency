@@ -3,14 +3,12 @@
 namespace App\Core\View;
 
 use App\Core\Exceptions\ViewNotFoundException;
-use App\Core\Session\Session;
+use App\Core\Session\ISession;
 
-class View
+class View implements \App\Core\View\IView
 {
-    function __construct(private Session $session)
-    {
-        
-    }
+    public function __construct(private ISession $session) {}
+
     public function renderView(string $name): void
     {
 
@@ -32,11 +30,12 @@ class View
         }
         include_once APP_PATH."/views/components/$name.php";
     }
-    private function data() : array
+
+    private function data(): array
     {
         return [
             'view' => $this,
-            'session' => $this->session
+            'session' => $this->session,
         ];
     }
 }

@@ -3,20 +3,23 @@
 namespace App\Core\Router;
 
 use App\Core\Controller\Controller;
-use App\Core\Http\Redirect;
-use App\Core\Http\Request;
-use App\Core\Session\Session;
-use App\Core\View\View;
+use App\Core\Http\IRedirect;
+use App\Core\Http\IRequest;
+use App\Core\Session\ISession;
+use App\Core\View\IView;
 use JetBrains\PhpStorm\NoReturn;
 
-class Router
+class Router implements IRouter
 {
     private array $routes = [
         'GET' => [],
         'POST' => [],
     ];
 
-    public function __construct(private View $view, private Request $request, private Redirect $redirect, private Session $session)
+    public function __construct(private readonly IView $view,
+        private readonly IRequest $request,
+        private readonly IRedirect $redirect,
+        private readonly ISession $session)
     {
 
         $this->initRouts();

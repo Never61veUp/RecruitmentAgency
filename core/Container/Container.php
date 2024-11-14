@@ -2,26 +2,32 @@
 
 namespace App\Core\Container;
 
+use App\Core\Http\IRedirect;
+use App\Core\Http\IRequest;
 use App\Core\Http\Redirect;
 use App\Core\Http\Request;
+use App\Core\Router\IRouter;
 use App\Core\Router\Router;
+use App\Core\Session\ISession;
 use App\Core\Session\Session;
+use App\Core\Validator\IValidator;
 use App\Core\Validator\Validator;
+use App\Core\View\IView;
 use App\Core\View\View;
 
 class Container
 {
-    public readonly Request $request;
+    public readonly IRequest $request;
 
-    public readonly Router $router;
+    public readonly IRouter $router;
 
-    public readonly View $view;
+    public readonly IView $view;
 
-    public readonly Validator $validator;
+    public readonly IValidator $validator;
 
-    public readonly Redirect $redirect;
+    public readonly IRedirect $redirect;
 
-    public readonly Session $session;
+    public readonly ISession $session;
 
     public function __construct()
     {

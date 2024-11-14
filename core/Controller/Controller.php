@@ -2,57 +2,57 @@
 
 namespace App\Core\Controller;
 
-use App\Core\Http\Redirect;
-use App\Core\Http\Request;
-use App\Core\Session\Session;
-use App\Core\View\View;
+use App\Core\Http\IRedirect;
+use App\Core\Http\IRequest;
+use App\Core\Session\ISession;
+use App\Core\View\IView;
 
 abstract class Controller
 {
-    protected View $view;
+    protected IView $view;
 
-    protected Request $request;
+    protected IRequest $request;
 
-    protected Redirect $redirect;
+    protected IRedirect $redirect;
 
-    protected Session $session;
+    protected ISession $session;
 
     public function view(string $view): void
     {
         $this->view->renderView($view);
     }
 
-    public function setView(View $view): void
+    public function setView(IView $view): void
     {
         $this->view = $view;
     }
 
-    public function request(): Request
+    public function request(): IRequest
     {
         return $this->request;
     }
 
-    public function setRequest(Request $request): void
+    public function setRequest(IRequest $request): void
     {
         $this->request = $request;
     }
 
-    public function setRedirect(Redirect $redirect): void
+    public function setRedirect(IRedirect $redirect): void
     {
         $this->redirect = $redirect;
     }
 
-    public function redirect(string $url): Redirect
+    public function redirect(string $url): IRedirect
     {
         return $this->redirect->to($url);
     }
 
-    public function getSession(): Session
+    public function getSession(): ISession
     {
         return $this->session;
     }
 
-    public function setSession(Session $session): void
+    public function setSession(ISession $session): void
     {
         $this->session = $session;
     }
