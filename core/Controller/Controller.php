@@ -2,8 +2,10 @@
 
 namespace App\Core\Controller;
 
+use App\Core\Auth\IAuth;
 use App\Core\Http\IRedirect;
 use App\Core\Http\IRequest;
+use App\Core\Persistance\IDataBase;
 use App\Core\Session\ISession;
 use App\Core\View\IView;
 
@@ -16,6 +18,10 @@ abstract class Controller
     protected IRedirect $redirect;
 
     protected ISession $session;
+
+    protected IDataBase $dataBase;
+
+    protected IAuth $auth;
 
     public function view(string $view): void
     {
@@ -55,5 +61,20 @@ abstract class Controller
     public function setSession(ISession $session): void
     {
         $this->session = $session;
+    }
+
+    public function getDataBase(): IDataBase
+    {
+        return $this->dataBase;
+    }
+
+    public function setDataBase(IDataBase $dataBase): void
+    {
+        $this->dataBase = $dataBase;
+    }
+
+    public function setAuth(IAuth $auth): void
+    {
+        $this->auth = $auth;
     }
 }

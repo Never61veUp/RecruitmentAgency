@@ -2,9 +2,11 @@
 
 namespace App\Core\Router;
 
+use App\Core\Auth\IAuth;
 use App\Core\Controller\Controller;
 use App\Core\Http\IRedirect;
 use App\Core\Http\IRequest;
+use App\Core\Persistance\IDataBase;
 use App\Core\Session\ISession;
 use App\Core\View\IView;
 use JetBrains\PhpStorm\NoReturn;
@@ -19,7 +21,9 @@ class Router implements IRouter
     public function __construct(private readonly IView $view,
         private readonly IRequest $request,
         private readonly IRedirect $redirect,
-        private readonly ISession $session)
+        private readonly ISession $session,
+        private readonly IDatabase $database,
+        private readonly IAuth $auth)
     {
 
         $this->initRouts();
@@ -41,6 +45,8 @@ class Router implements IRouter
             call_user_func([$controller, 'setRequest'], $this->request);
             call_user_func([$controller, 'setRedirect'], $this->redirect);
             call_user_func([$controller, 'setSession'], $this->session);
+            call_user_func([$controller, 'setDatabase'], $this->database);
+            call_user_func([$controller, 'setAuth'], $this->auth);
             call_user_func([$controller, $action]);
 
         } else {
