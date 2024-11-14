@@ -4,5 +4,5 @@ namespace App\Core\Config;
 
 interface IConfig
 {
-    public function getConfig(string $key, $default = null);
+    public function get(string $key, $default = null);
 }

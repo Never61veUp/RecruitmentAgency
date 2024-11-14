@@ -1,17 +1,11 @@
 <?php
 
-class dbConfig
-{
-    public function getConfig()
-    {
-        return [
-            'driver' => 'mysql',
-            'host' => 'localhost',
-            'port' => '3306',
-            'database' => 'agency',
-            'username' => 'root',
-            'password' => '',
-            'charset' => 'utf8',
-        ];
-    }
-}
+return [
+    'driver' => 'mysql',
+    'host' => 'MySQL-8.0',
+    'port' => '3306',
+    'database' => 'requrementAgecny',
+    'username' => 'root',
+    'password' => '',
+    'charset' => 'utf8mb4',
+];

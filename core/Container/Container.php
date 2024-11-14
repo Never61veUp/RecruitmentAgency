@@ -2,10 +2,14 @@
 
 namespace App\Core\Container;
 
+use App\Core\Config\Config;
+use App\Core\Config\IConfig;
 use App\Core\Http\IRedirect;
 use App\Core\Http\IRequest;
 use App\Core\Http\Redirect;
 use App\Core\Http\Request;
+use App\Core\Persistance\DataBase;
+use App\Core\Persistance\IDataBase;
 use App\Core\Router\IRouter;
 use App\Core\Router\Router;
 use App\Core\Session\ISession;
@@ -29,6 +33,10 @@ class Container
 
     public readonly ISession $session;
 
+    public readonly IConfig $config;
+
+    public readonly IDatabase $database;
+
     public function __construct()
     {
         $this->registerServices();
@@ -44,6 +52,8 @@ class Container
         $this->router = new Router($this->view, $this->request, $this->redirect, $this->session);
         $this->validator = new Validator;
         $this->request->setValidator($this->validator);
+        $this->config = new Config;
+        $this->database = new Database($this->config);
 
     }
 }
