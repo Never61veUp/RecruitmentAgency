@@ -6,6 +6,7 @@ use App\Core\Auth\IAuth;
 use App\Core\Controller\Controller;
 use App\Core\Http\IRedirect;
 use App\Core\Http\IRequest;
+use App\Core\Middleware\AbstractMiddleware;
 use App\Core\Persistance\IDataBase;
 use App\Core\Session\ISession;
 use App\Core\View\IView;
@@ -36,7 +37,14 @@ class Router implements IRouter
         if (! $route) {
             $this->notFound();
         }
+        if ($route->hasMiddlewares()) {
+            foreach ($route->getMiddlewares() as $middleware) {
+                /** @var AbstractMiddleware $middleware */
+                $middleware = new $middleware($this->request, $this->auth, $this->redirect);
 
+                $middleware->handle();
+            }
+        }
         if (is_array($route->getAction())) {
             [$controller, $action] = $route->getAction();
             /** @var Controller $controller */
@@ -85,7 +93,7 @@ class Router implements IRouter
     #[NoReturn]
     private function notFound(): void
     {
-        echo 'not found route';
+        $this->view->renderView('/notFound');
         exit;
     }
 }

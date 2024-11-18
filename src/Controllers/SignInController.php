@@ -16,10 +16,18 @@ class SignInController extends Controller
         $email = $this->request()->input('email');
         $password = $this->request()->input('password');
         if ($this->auth->attempt($email, $password)) {
+            //            dd($this->session->get('user'));
             $this->redirect('/home');
+
         } else {
             dd('Wrong email or password');
         }
 
+    }
+
+    public function signOut(): void
+    {
+        $this->auth->logout();
+        $this->redirect('/home');
     }
 }

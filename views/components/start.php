@@ -1,3 +1,4 @@
+<?php /* @var \App\Core\View\IView $view; */ ?>
 <!doctype html>
 <html lang="ru">
 <head>
@@ -8,4 +9,4 @@
     <title>Document</title>
 </head>
 <body>
-<p>fdsssss</p>
+<?php $view->renderComponent('header'); ?>

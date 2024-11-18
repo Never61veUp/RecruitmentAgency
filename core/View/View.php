@@ -2,21 +2,23 @@
 
 namespace App\Core\View;
 
+use App\Core\Auth\IAuth;
 use App\Core\Exceptions\ViewNotFoundException;
 use App\Core\Session\ISession;
 
-class View implements \App\Core\View\IView
+class View implements IView
 {
-    public function __construct(private ISession $session) {}
+    public function __construct(private ISession $session,
+        private IAuth $auth) {}
 
-    public function renderView(string $name): void
+    public function renderView(string $name, array $data = []): void
     {
 
         $viewPath = APP_PATH."/views/pages/$name.php";
         if (! file_exists($viewPath)) {
             throw new ViewNotFoundException("View $name does not exist");
         }
-        extract($this->data());
+        extract(array_merge($this->data(), $data));
         include_once $viewPath;
     }
 
@@ -28,7 +30,8 @@ class View implements \App\Core\View\IView
 
             return;
         }
-        include_once APP_PATH."/views/components/$name.php";
+        extract($this->data());
+        include_once $componentPath;
     }
 
     private function data(): array
@@ -36,6 +39,7 @@ class View implements \App\Core\View\IView
         return [
             'view' => $this,
             'session' => $this->session,
+            'auth' => $this->auth,
         ];
     }
 }

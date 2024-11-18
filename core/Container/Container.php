@@ -49,7 +49,7 @@ class Container
     private function registerServices(): void
     {
         $this->session = new Session;
-        $this->view = new View($this->session);
+
         $this->request = Request::createFromGlobals();
         $this->redirect = new Redirect;
         $this->config = new Config;
@@ -58,6 +58,7 @@ class Container
         $this->validator = new Validator;
         $this->request->setValidator($this->validator);
         $this->auth = new Auth($this->database, $this->session);
+        $this->view = new View($this->session, $this->auth);
 
         $this->router = new Router($this->view, $this->request, $this->redirect, $this->session, $this->database, $this->auth);
 

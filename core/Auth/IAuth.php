@@ -2,6 +2,9 @@
 
 namespace App\Core\Auth;
 
+use App\Core\Model\Company;
+use App\Core\Model\User;
+
 interface IAuth
 {
     public function attempt(string $email, string $password): bool;
@@ -10,11 +13,7 @@ interface IAuth
 
     public function isLoggedIn(): bool;
 
-    public function user(): array;
+    public function user(): User|Company|null;
 
-    public function table(): string;
-
-    public function email(): string;
-
-    public function password(): string;
+    public function isEmployer(): bool;
 }

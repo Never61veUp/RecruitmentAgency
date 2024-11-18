@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Core\Controller\Controller;
+use App\Services\OfferService;
 
 class OfferController extends Controller
 {
@@ -11,11 +12,20 @@ class OfferController extends Controller
         $this->view('employer/offers/add');
     }
 
+    public function viewOffer(): void
+    {
+        $offers = new OfferService($this->dataBase);
+
+        $offers = $offers->getAll(['companyId' => $this->session->get('email')['id']]);
+
+        $this->view('employer/offers', ['offers' => $offers]);
+    }
+
     public function storeOffer(): void
     {
 
         $validations = $this->request()->validate([
-            'title' => ['required', 'min:3', 'max:25', 'isSpecChar:no'],
+            'title' => ['required', 'min:3', 'max:25'],
             'description' => ['required', 'min:3', 'max:255'],
             'salary' => ['required', 'min:3', 'max:25'],
             'requiredExperience' => ['required', 'min:3', 'max:25'],
@@ -35,8 +45,12 @@ class OfferController extends Controller
                 'description' => $this->request->input('description'),
                 'salary' => $this->request->input('salary'),
                 'requiredExperience' => $this->request->input('requiredExperience'),
+                'companyId' => $this->session->get('email')['id'],
+                'region' => $this->request->input('location'),
+                'isRemote' => (int) $this->request->input('isRemote'),
             ]);
-            dd($id);
+
         }
+        $this->redirect('/employer/offers');
     }
 }

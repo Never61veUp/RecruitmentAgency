@@ -2,6 +2,8 @@
 
 namespace App\Core\Auth;
 
+use App\Core\Model\Company;
+use App\Core\Model\User;
 use App\Core\Persistance\IDataBase;
 use App\Core\Session\ISession;
 
@@ -11,18 +13,23 @@ class Auth implements IAuth
 
     public function attempt(string $email, string $password): bool
     {
+
         $user = $this->database->first('users', ['email' => hash('sha256', $email)]);
+        $role = 'user';
         if (! $user) {
             $user = $this->database->first('company', ['email' => hash('sha256', $email)]);
+            $role = 'company';
             if (! $user) {
+
                 return false;
             }
         }
         if (! password_verify($password, $user['password'])) {
             return false;
         }
-        $this->session->set('company_id', $user['id']);
-        $this->session->set('user', $user);
+
+        $this->session->set('email', $user);
+        $this->session->set('role', $role);
 
         return true;
 
@@ -30,31 +37,54 @@ class Auth implements IAuth
 
     public function logout(): void
     {
-        // TODO: Implement logout() method.
+        $this->session->delete('email');
     }
 
     public function isLoggedIn(): bool
     {
-        // TODO: Implement isLoggedIn() method.
+        return $this->session->has('email');
     }
 
-    public function user(): array
+    public function isEmployer(): bool
     {
-        // TODO: Implement user() method.
+        if ($this->session->get('role') == 'company') {
+            return true;
+        }
+
+        return false;
+
     }
 
-    public function table(): string
+    public function user(): User|Company|null
     {
-        // TODO: Implement table() method.
-    }
+        if (! $this->isLoggedIn()) {
 
-    public function email(): string
-    {
-        // TODO: Implement email() method.
-    }
+            return null;
+        }
 
-    public function password(): string
-    {
-        // TODO: Implement password() method.
+        $user = $this->database->first('users', ['email' => $this->session->get('email')['email']]);
+        if (! $user) {
+            $company = $this->database->first('company', ['email' => $this->session->get('email')['email']]);
+            if (! $company) {
+                return null;
+            }
+
+            return new Company(
+                $company['id'],
+                $company['title'],
+                $company['email'],
+                $company['password'],
+            );
+
+        }
+
+        return new User(
+            $user['id'],
+            $user['name'],
+            $user['surName'],
+            $user['email'],
+            $user['password'],
+        );
+
     }
 }

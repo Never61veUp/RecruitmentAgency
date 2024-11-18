@@ -23,9 +23,9 @@ abstract class Controller
 
     protected IAuth $auth;
 
-    public function view(string $view): void
+    public function view(string $view, array $data = []): void
     {
-        $this->view->renderView($view);
+        $this->view->renderView($view, $data);
     }
 
     public function setView(IView $view): void

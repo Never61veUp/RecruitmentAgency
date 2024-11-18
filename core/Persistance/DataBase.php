@@ -55,26 +55,26 @@ class DataBase implements IDataBase
 
     }
 
-    public function first(string $tableName, array $conditions = []): array|false
+    public function first(string $tableName, ?array $conditions = []): ?array
     {
         $where = '';
-
         if (count($conditions) > 0) {
-            // Генерация условий WHERE с параметрами для привязки
-            $where .= ' WHERE '.implode(' AND ', array_map(fn ($field) => "$field = :$field", array_keys($conditions)));
+            $where = 'WHERE '.implode(' AND ', array_map(fn ($field) => "$field = :$field", array_keys($conditions)));
         }
 
-        // Подготовка SQL-запроса
         $sql = "SELECT * FROM $tableName $where LIMIT 1";
 
-        // Подготовка и выполнение запроса
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($conditions);
+        foreach ($conditions as $field => $value) {
+            $stmt->bindValue(":$field", $value);
+        }
 
-        // Получение результата
+        $stmt->execute();
+
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $result ?: false;
+        // Возвращение результата
+        return $result ?: null;
     }
 
     public function findByKey(string $tableName, string $key, string $value): array|false
@@ -91,5 +91,39 @@ class DataBase implements IDataBase
         } catch (PDOException $e) {
             return false;
         }
+    }
+
+    public function get(string $tableName, array $conditions = [], array $likeConditions = []): array
+    {
+        $where = '';
+
+        if (count($conditions) > 0) {
+            $where .= implode(' AND ', array_map(fn ($field) => "`$field` = :$field", array_keys($conditions)));
+        }
+
+        if (count($likeConditions) > 0) {
+            $likeWhere = implode(' AND ', array_map(fn ($field) => "`$field` LIKE :$field", array_keys($likeConditions)));
+            $where .= ($where ? ' AND ' : '').$likeWhere;
+        }
+
+        if ($where) {
+            $where = 'WHERE '.$where;
+        }
+
+        $sql = "SELECT * FROM `$tableName` $where";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        foreach ($conditions as $field => $value) {
+            $stmt->bindValue(":$field", $value);
+        }
+
+        foreach ($likeConditions as $field => $value) {
+            $stmt->bindValue(":$field", "%$value%");
+        }
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
