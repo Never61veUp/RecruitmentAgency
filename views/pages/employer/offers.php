@@ -11,7 +11,8 @@ use App\Controllers\AllOffersController;
     <h2 class="text-2xl font-semibold mb-4 text-center">Мои офферы</h2>
     <?php foreach ($offers as $offer) { ?>
         <div class="p-4 mb-4 bg-gray-100 rounded-lg shadow-md">
-            <form method="POST" action="/employer/offers/edit" class="grid gap-4">
+            
+            <form method="POST" class="grid gap-4">
                 <input type="hidden" name="id" value="<?php echo $offer->getId(); ?>">
 
                 <!-- Заголовок -->
@@ -80,8 +81,11 @@ use App\Controllers\AllOffersController;
                 </label>
 
                 <!-- Кнопка сохранить -->
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                <button type="submit" formaction="/employer/offers/edit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                     Сохранить изменения
+                </button>
+                <button type="submit" formaction="/employer/offers/delete" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                    Удалить
                 </button>
             </form>
         </div>
