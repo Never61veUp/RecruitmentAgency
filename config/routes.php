@@ -14,6 +14,8 @@ return [
     Route::get('/home', [HomeController::class, 'index']),
     Route::get('/employer/offers/add', [OfferController::class, 'addOffer'], [isEmployerMiddleware::class]),
     Route::post('/employer/offers/add', [OfferController::class, 'storeOffer']),
+    Route::post('/employer/offers/delete', [OfferController::class, 'deleteOffer']),
+    Route::post('/employer/offers/edit', [OfferController::class, 'editOffer']),
     Route::get('/signUp/user', [SignUpUserController::class, 'signUp'], [GuestMiddleware::class]),
     Route::post('/signUp/user', [SignUpUserController::class, 'AddUser']),
     Route::get('/signUp/company', [SignUpCompanyController::class, 'signUp'], [GuestMiddleware::class]),

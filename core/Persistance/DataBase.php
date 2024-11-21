@@ -126,4 +126,50 @@ class DataBase implements IDataBase
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function delete(string $tableName, int $id): bool
+    {
+        $sql = "DELETE FROM $tableName WHERE id = :id LIMIT 1";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public function update(string $tableName, int $id, array $data): bool
+    {
+
+        if (empty($data)) {
+            throw new InvalidArgumentException('Данные для обновления не могут быть пустыми.');
+        }
+        $setClause = [];
+        $params = [];
+
+        foreach ($data as $column => $value) {
+            $setClause[] = "`$column` = :$column";
+            $params[$column] = $value;
+        }
+
+        $setClauseString = implode(', ', $setClause);
+
+        // Добавляем ID в параметры
+        $params['id'] = $id;
+
+        // Формируем SQL-запрос
+        $sql = "UPDATE `$tableName` SET $setClauseString WHERE `id` = :id";
+
+        // Подготавливаем и выполняем запрос
+        try {
+            $statement = $this->pdo->prepare($sql);
+
+            return $statement->execute($params);
+        } catch (PDOException $e) {
+            // Логируем ошибку или бросаем исключение
+            error_log('Ошибка обновления: '.$e->getMessage());
+
+            return false;
+        }
+    }
 }

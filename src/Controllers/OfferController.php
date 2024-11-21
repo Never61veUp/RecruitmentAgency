@@ -53,4 +53,27 @@ class OfferController extends Controller
         }
         $this->redirect('/employer/offers');
     }
+
+    public function deleteOffer(): void
+    {
+        $id = $this->request->input('id');
+        $res = $this->dataBase->delete('offers', $id);
+        $this->redirect('/employer/offers');
+    }
+
+    public function editOffer(): void
+    {
+        $id = $this->request->input('id');
+
+        $res = $this->dataBase->update('offers', $id, [
+            'title' => $this->request->input('title'),
+            'description' => $this->request->input('description'),
+            'salary' => $this->request->input('salary'),
+            'requiredExperience' => $this->request->input('requiredExperience'),
+            'region' => $this->request->input('location'),
+            'isRemote' => (int) $this->request->input('isRemote'),
+            'updatedAt' => date('Y-m-d H:i:s'),
+        ]);
+        $this->redirect('/employer/offers');
+    }
 }
