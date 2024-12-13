@@ -48,6 +48,7 @@ class OfferController extends Controller
                 'companyId' => $this->session->get('email')['id'],
                 'region' => $this->request->input('location'),
                 'isRemote' => (int) $this->request->input('isRemote'),
+
             ]);
 
         }

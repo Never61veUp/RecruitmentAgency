@@ -79,6 +79,7 @@ use App\Controllers\AllOffersController;
                         <option value="0" <?php echo ! $offer->isRemote() ? 'selected' : ''; ?>>Нет</option>
                     </select>
                 </label>
+                <p><?php echo $offer->getStatus() ?></p>
 
                 <!-- Кнопка сохранить -->
                 <button type="submit" formaction="/employer/offers/edit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">

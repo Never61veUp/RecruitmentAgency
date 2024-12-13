@@ -11,7 +11,8 @@ use App\Controllers\AllOffersController;
 
 <?php foreach ($offers as $offer) {
     ?>
-    <div class='bg-white shadow-md rounded-lg p-8 my-6 w-full max-w-lg mx-auto'>
+    <form method="post" action="/admin/offers/accept" class='bg-white shadow-md rounded-lg p-8 my-6 w-full max-w-lg mx-auto'>
+        <input type="hidden" name="id" value="<?php echo $offer->getId(); ?>">
         <h2 class='text-2xl font-bold text-gray-800 mb-2'><?php echo $offer->getTitle() ?></h2>
         <p class='text-gray-600 mb-1'><strong>Компания:</strong><?php echo $offer->getCompanyName() ?></p>
         <p class='text-gray-600 mb-1'><strong>Местоположение:</strong><?php echo $offer->getRegion() ?></p>
@@ -21,15 +22,15 @@ use App\Controllers\AllOffersController;
         <?php
         $color = $offer->isRemote() ? 'green' : 'red';
     ?>
-        <p class="text-<?= $color ?>-500 font-semibold mb-4"><strong>Удалённая работа:</strong><?php echo $offer->isRemote() ? ' Да' : ' Нет'; ?></p>
+        <p class="text-<?= $color ?>-500 font-semibold mb-4"><strong>Удалённая работа:</strong><?php echo $offer->getTitle() ? ' Нет' : ' Да'; ?></p>
 
-        <button class='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded'>Откликнуться</button>
+        <button type="submit" class='bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded'>Одобрить</button>
         <div>
             <p>добавлено: <?php echo $offer->getCreatedAt() ?></p>
             <p>обнавлено: <?php echo $offer->getUpdatedAt() ?></p>
         </div>
-    </div>
-        <?php
+    </form>
+    <?php
 }?>
 
 
