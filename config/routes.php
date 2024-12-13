@@ -11,6 +11,7 @@ use App\Middleware\GuestMiddleware;
 use App\Middleware\isEmployerMiddleware;
 
 return [
+    Route::get('/', [HomeController::class, 'index']),
     Route::get('/home', [HomeController::class, 'index']),
     Route::get('/employer/offers/add', [OfferController::class, 'addOffer'], [isEmployerMiddleware::class]),
     Route::post('/employer/offers/add', [OfferController::class, 'storeOffer']),
@@ -26,5 +27,7 @@ return [
     Route::get('/offers', [AllOffersController::class, 'renderView']),
     Route::post('/offers', [AllOffersController::class, 'updateOffers']),
     Route::get('/employer/offers', [OfferController::class, 'viewOffer']),
+    Route::get('/admin/offers', [App\Controllers\Admin\OfferController::class, 'renderView'], [isEmployerMiddleware::class]),
+    Route::post('/admin/offers/accept', [App\Controllers\Admin\OfferController::class, 'accept'], [isEmployerMiddleware::class]),
 
 ];

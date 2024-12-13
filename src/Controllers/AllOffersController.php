@@ -13,7 +13,7 @@ class AllOffersController extends Controller
     {
         $offers = new OfferService($this->dataBase);
 
-        $offers = $offers->getAll();
+        $offers = $offers->getAll(['status' => 1]);
 
         $this->view('offers/offers', ['offers' => $offers]);
 

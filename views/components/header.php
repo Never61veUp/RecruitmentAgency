@@ -17,11 +17,11 @@ if ($auth->isEmployer()) {
         </div>
     </div>
     <nav class="flex items-center space-x-4">
-        <a href="#" class="text-black">Сервисы</a>
-        <a href="#" class="text-black">Помощь</a>
+        <a href="/services" class="text-black">Сервисы</a>
+        <a href="/help" class="text-black">Помощь</a>
         <div class="flex items-center space-x-2">
             <span class="text-black">Россия</span>
-            <a href="#" class="px-4 py-2 font-semibold text-black bg-gray-100 rounded-md">Создать резюме</a>
+            <a href="/addResume" class="px-4 py-2 font-semibold text-black bg-gray-100 rounded-md">Создать резюме</a>
 
             <?php if ($auth->isLoggedIn()) {
                 $user = $auth->user();
@@ -35,13 +35,13 @@ if ($auth->isEmployer()) {
                     <!-- Dropdown Menu -->
                     <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
                         <p class="block px-4 py-2 text-gray-700 hover:bg-gray-200"><?php echo $user->getName()?></p>
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Настройки</a>
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Рассылки</a>
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Скрытые мной вакансии и компании</a>
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Изображения</a>
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Подключенные услуги</a>
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Мои приложения</a>
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-200 flex items-center">
+                        <a href="/profile/settings" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Настройки</a>
+                        <a href="/profile/mailings" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Рассылки</a>
+                        <a href="/profile/hidden" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Скрытые мной вакансии и компании</a>
+                        <a href="/profile/images" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Изображения</a>
+                        <a href="/profile/connectedServices" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Подключенные услуги</a>
+                        <a href="/profile/myApplications" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Мои приложения</a>
+                        <a href="/profile/reviews" class="block px-4 py-2 text-gray-700 hover:bg-gray-200 flex items-center">
                             Отзывы о работодателях <span class="bg-blue-500 text-white text-xs ml-2 px-1 rounded">new</span>
                         </a>
                         <!-- Logout Button -->

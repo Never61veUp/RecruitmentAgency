@@ -9,7 +9,8 @@ class Offer
     public function __construct(private int $id, private string $title, private float $salary, private string $description,
         private string $createdAt,
         private string $updatedAt,
-        private int $companyId, private string $region, private string $requiredExperience, private bool $isRemote) {}
+        private int $companyId, private string $region, private string $requiredExperience, private bool $isRemote, private string $companyName,
+        private int $status) {}
 
     public function getId(): int
     {
@@ -44,6 +45,11 @@ class Offer
     public function getCompanyId(): int
     {
         return $this->companyId;
+    }
+
+    public function getCompanyName(): string
+    {
+        return $this->companyName;
     }
 
     private function timeAgo(string $datetime): string
@@ -96,5 +102,17 @@ class Offer
     public function isRemote(): bool
     {
         return $this->isRemote;
+    }
+
+    public function getStatus(): string
+    {
+        $hashMap = [
+            '0' => 'На проверке',
+            '1' => 'Активное',
+            '2' => 'Завершенное',
+        ];
+        $res = $hashMap[$this->status];
+
+        return $res;
     }
 }
