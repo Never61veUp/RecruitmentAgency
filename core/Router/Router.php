@@ -55,8 +55,9 @@ class Router implements IRouter
             call_user_func([$controller, 'setSession'], $this->session);
             call_user_func([$controller, 'setDatabase'], $this->database);
             call_user_func([$controller, 'setAuth'], $this->auth);
-            call_user_func([$controller, $action]);
 
+            $params = $route->getParams();
+            call_user_func_array([$controller, $action], $params);
         } else {
             call_user_func($route->getAction());
         }
@@ -77,17 +78,24 @@ class Router implements IRouter
      */
     private function getRouts(): array
     {
-
         return require_once APP_PATH.'/config/routes.php';
     }
 
     private function findRoute(string $uri, string $method): Route|false
     {
-        if (! isset($this->routes[$method][$uri])) {
-            return false;
+        foreach ($this->routes[$method] as $routeUri => $route) {
+            $pattern = preg_replace('#\{([a-zA-Z0-9_]+)\}#', '(?P<\1>[^/]+)', $routeUri);
+            $pattern = '#^'.$pattern.'$#';
+
+            if (preg_match($pattern, $uri, $matches)) {
+                $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
+                $route->setParams($params);
+
+                return $route;
+            }
         }
 
-        return $this->routes[$method][$uri];
+        return false;
     }
 
     #[NoReturn]

@@ -36,6 +36,27 @@ class OfferService
         return $offers;
     }
 
+    public function getFirst(array $conditions = [], array $likeConditions = []): Offer
+    {
+
+        $offer = $this->database->first('offers', $conditions, $likeConditions);
+
+        return new Offer(id: $offer['id'],
+            title: $offer['title'],
+            salary: $offer['salary'],
+            description: $offer['description'],
+            createdAt: $offer['created_at'],
+            updatedAt: $offer['updatedAt'],
+            companyId: $offer['companyId'],
+            region: $offer['region'],
+            requiredExperience: $offer['requiredExperience'],
+            isRemote: $offer['isRemote'],
+            companyName: $companies[0]['title'] ?? '',
+            status: $offer['status'] ?? 2,
+        );
+
+    }
+
     public function getCount(): int
     {
         $offers = $this->database->get('offers');

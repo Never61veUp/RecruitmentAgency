@@ -11,6 +11,18 @@ class Route
         private readonly array $middlewares = [],
     ) {}
 
+    private array $params = [];
+
+    public function setParams(array $params): void
+    {
+        $this->params = $params;
+    }
+
+    public function getParams(): array
+    {
+        return $this->params;
+    }
+
     public static function get(string $url, $action, array $middlewares = []): static
     {
         return new static($url, 'GET', $action, $middlewares);

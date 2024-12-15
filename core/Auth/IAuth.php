@@ -16,4 +16,6 @@ interface IAuth
     public function user(): User|Company|null;
 
     public function isEmployer(): bool;
+
+    public function isAdmin(): bool;
 }

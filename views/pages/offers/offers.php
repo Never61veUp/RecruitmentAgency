@@ -23,7 +23,7 @@ use App\Controllers\AllOffersController;
     ?>
         <p class="text-<?= $color ?>-500 font-semibold mb-4"><strong>Удалённая работа:</strong><?php echo $offer->isRemote() ? ' Да' : ' Нет'; ?></p>
 
-        <button class='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded'>Откликнуться</button>
+        <a href="/offer/<?php echo $offer->getId(); ?>" class='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded'>Откликнуться</a>
         <div>
             <p>добавлено: <?php echo $offer->getCreatedAt() ?></p>
             <p>обнавлено: <?php echo $offer->getUpdatedAt() ?></p>

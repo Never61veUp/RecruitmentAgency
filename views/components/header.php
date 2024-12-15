@@ -21,7 +21,7 @@ if ($auth->isEmployer()) {
         <a href="/help" class="text-black">Помощь</a>
         <div class="flex items-center space-x-2">
             <span class="text-black">Россия</span>
-            <a href="/addResume" class="px-4 py-2 font-semibold text-black bg-gray-100 rounded-md">Создать резюме</a>
+<!--            <a href="/addResume" class="px-4 py-2 font-semibold text-black bg-gray-100 rounded-md">Создать резюме</a>-->
 
             <?php if ($auth->isLoggedIn()) {
                 $user = $auth->user();
@@ -35,15 +35,24 @@ if ($auth->isEmployer()) {
                     <!-- Dropdown Menu -->
                     <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
                         <p class="block px-4 py-2 text-gray-700 hover:bg-gray-200"><?php echo $user->getName()?></p>
-                        <a href="/profile/settings" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Настройки</a>
-                        <a href="/profile/mailings" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Рассылки</a>
-                        <a href="/profile/hidden" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Скрытые мной вакансии и компании</a>
-                        <a href="/profile/images" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Изображения</a>
-                        <a href="/profile/connectedServices" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Подключенные услуги</a>
-                        <a href="/profile/myApplications" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Мои приложения</a>
-                        <a href="/profile/reviews" class="block px-4 py-2 text-gray-700 hover:bg-gray-200 flex items-center">
-                            Отзывы о работодателях <span class="bg-blue-500 text-white text-xs ml-2 px-1 rounded">new</span>
-                        </a>
+                        <?php
+                        if ($auth->isEmployer()) {
+                            ?>
+                            <a href="/employer/offers" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Мои вакансии</a>
+                            <a href="/employer/offers/add" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Создать вакансию</a>
+                            <a href="/employer/responses" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Мои отклики</a>
+                            <?php
+                        } elseif ($auth->isAdmin()) {
+                            ?>
+                    <a href="/profile/settings" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Одобрить вакансии</a>
+                    <?php
+                        } else {
+                            ?>
+                            <a href="/responses" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Мои отклики</a>
+                            <?php
+                        }
+                ?>
+
                         <!-- Logout Button -->
                         <form action="/signOut" method="POST" class="block w-full">
                             <button type="submit" name="logout" class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-200">Выход</button>

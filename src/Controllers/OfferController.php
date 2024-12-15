@@ -77,4 +77,28 @@ class OfferController extends Controller
         ]);
         $this->redirect('/employer/offers');
     }
+
+    public function show($id): void
+    {
+        $offers = new OfferService($this->dataBase);
+
+        $offer = $offers->getFirst(['Id' => $id]);
+
+        $this->view->renderView('offers/offerResponse', ['offer' => $offer]);
+
+    }
+
+    public function showPost(): void
+    {
+
+        $this->dataBase->add('responses', [
+            'offerId' => $this->request->input('offer_id'),
+            'userId' => $this->session->get('email')['id'],
+            'fullName' => $this->request->input('full_name'),
+            'email' => $this->request->input('email'),
+            'phone' => $this->request->input('phone'),
+            'Cv' => $this->request->input('cover_letter'),
+        ]);
+
+    }
 }

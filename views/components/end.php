@@ -4,5 +4,6 @@
     const myDiv = document.getElementById('myDiv');
     myDiv.style.minHeight = `calc(100vh - ${headerHeight}px)`;
 </script>
+
 </body>
 </html>

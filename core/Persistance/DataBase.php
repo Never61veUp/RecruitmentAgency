@@ -172,4 +172,26 @@ class DataBase implements IDataBase
             return false;
         }
     }
+
+    public function query(string $sql, array $params = []): array
+    {
+        try {
+            // Подготавливаем запрос
+            $stmt = $this->pdo->prepare($sql);
+
+            // Привязываем параметры
+            foreach ($params as $key => $value) {
+                $stmt->bindValue(':'.$key, $value);
+            }
+
+            // Выполняем запрос
+            $stmt->execute();
+
+            // Возвращаем результат как массив
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Обрабатываем ошибку
+            exit('Ошибка выполнения запроса: '.$e->getMessage());
+        }
+    }
 }

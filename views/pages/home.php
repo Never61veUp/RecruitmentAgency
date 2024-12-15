@@ -9,6 +9,7 @@ use App\Controllers\HomeController;
 ?>
 <?php $view->renderComponent('start'); ?>
 <?php
+
 $title = 'Работа найдётся для каждого';
 $placeholder = 'Профессия, должность или компания';
 $button_text = 'Найти';

@@ -16,6 +16,9 @@ class Auth implements IAuth
 
         $user = $this->database->first('users', ['email' => hash('sha256', $email)]);
         $role = 'user';
+        if ($user['role'] == '1') {
+            $role = 'admin';
+        }
         if (! $user) {
             $user = $this->database->first('company', ['email' => hash('sha256', $email)]);
             $role = 'company';
@@ -48,6 +51,16 @@ class Auth implements IAuth
     public function isEmployer(): bool
     {
         if ($this->session->get('role') == 'company') {
+            return true;
+        }
+
+        return false;
+
+    }
+
+    public function isAdmin(): bool
+    {
+        if ($this->session->get('role') == 'admin') {
             return true;
         }
 
