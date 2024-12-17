@@ -29,7 +29,7 @@ return [
     Route::post('/signOut', [SignInController::class, 'signOut']),
     Route::get('/offers', [AllOffersController::class, 'renderView']),
     Route::post('/offers', [AllOffersController::class, 'updateOffers']),
-    Route::get('/employer/offers', [OfferController::class, 'viewOffer']),
+    Route::get('/employer/offers', [OfferController::class, 'viewOffer'], [isEmployerMiddleware::class]),
     Route::get('/admin/offers', [App\Controllers\Admin\OfferController::class, 'renderView'], [isAdminMiddleWare::class]),
     Route::post('/admin/offers/accept', [App\Controllers\Admin\OfferController::class, 'accept'], [isAdminMiddleWare::class]),
     Route::get('/offer/{id}', [OfferController::class, 'show']),

@@ -3,6 +3,7 @@
 namespace App\Core\Persistance;
 
 use App\Core\Config\IConfig;
+use App\Core\Model\Offer;
 use PDO;
 use PDOException;
 
@@ -31,6 +32,40 @@ class DataBase implements IDataBase
         } catch (PDOException $e) {
             dd("$e");
         }
+    }
+
+    public function getOffersByFilters(?string $title = null, ?string $companyName = null): array
+    {
+        $sql = '
+        SELECT offers.*
+        FROM offers
+        LEFT JOIN company ON offers.companyId = company.id
+        WHERE 1=1
+    ';
+        $params = [];
+
+        // Добавляем фильтр по названию вакансии
+        if (! empty($title)) {
+            $sql .= ' AND offers.title LIKE :title';
+            $params['title'] = "%$title%";
+        }
+
+        // Добавляем фильтр по названию компании
+        if (! empty($companyName)) {
+            $sql .= ' AND company.title LIKE :company_name';
+            $params['company_name'] = "%$companyName%";
+        }
+
+        $results = $this->query($sql, $params);
+
+        return array_map(fn ($row) => new Offer(
+            id: (int) $row['id'],
+            title: $row['title'],
+            idcompany: (int) $row['idcompany'],
+            description: $row['description'],
+            created_at: $row['created_at'],
+            updated_at: $row['updated_at'] ?? null
+        ), $results);
     }
 
     public function connect(): void

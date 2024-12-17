@@ -35,7 +35,7 @@ class SignUpCompanyController extends Controller
                 'password' => $hashedPassword,
             ]);
 
-            dd($id);
+            $this->redirect('/home');
         }
     }
 }

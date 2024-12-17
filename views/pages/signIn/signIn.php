@@ -58,11 +58,11 @@ if ($session->has('password')) { ?>
             </div>
         </div>
         <div class="mt-4 flex gap-4">
-            <a href="/signUp/company" class="w-full py-1 px-1 bg-blue-500 text-white font-semibold rounded-lg border border-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 active:bg-blue-700 transition text-center">
+            <a href="/signUp/user" class="w-full py-1 px-1 bg-blue-500 text-white font-semibold rounded-lg border border-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 active:bg-blue-700 transition text-center">
                 Регистрация для соискателя
             </a>
 
-            <a href="/signUp/user" class="w-full py-1 px-1 bg-green-500 text-white font-semibold rounded-lg border border-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300 active:bg-green-700 transition text-center">
+            <a href="/signUp/company" class="w-full py-1 px-1 bg-green-500 text-white font-semibold rounded-lg border border-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300 active:bg-green-700 transition text-center">
                 Регистрация для работодателя
             </a>
         </div>

@@ -2,8 +2,8 @@
 $user = $auth->user()?>
 <header class="flex items-center justify-between p-4 bg-white shadow-md">
     <div class="flex items-center space-x-4">
-        <a href="/home" class="flex items-center justify-center w-10 h-10 bg-red-600 rounded-full text-white font-bold">
-            hh
+        <a href="/home" class="flex items-center justify-center w-10 h-10 bg-blue-600 rounded-full text-white font-bold">
+            JL
         </a>
         <div class="flex space-x-2">
             <a href="/offers" class="px-4 py-2 font-semibold text-black bg-gray-100 rounded-md">Работа</a>
@@ -44,7 +44,7 @@ if ($auth->isEmployer()) {
                             <?php
                         } elseif ($auth->isAdmin()) {
                             ?>
-                    <a href="/profile/settings" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Одобрить вакансии</a>
+                    <a href="/admin/offers" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Одобрить вакансии</a>
                     <?php
                         } else {
                             ?>

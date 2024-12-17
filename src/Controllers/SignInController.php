@@ -20,7 +20,8 @@ class SignInController extends Controller
             $this->redirect('/home');
 
         } else {
-            dd('Wrong email or password');
+            echo 'Неверный пароль';
+            $this->redirect('/signIn');
         }
 
     }

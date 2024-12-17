@@ -22,10 +22,23 @@ class AllOffersController extends Controller
     public function updateOffers(): void
     {
 
-        $data = $this->request->input('title');
+        $title = $this->request->input('title');
+        $companyName = $this->request->input('company');
 
-        $offers = new OfferService($this->dataBase);
-        ! $data ? $offers = $offers->getAll() : $offers = $offers->getAll([], ['title' => $data]);
+        $offersService = new OfferService($this->dataBase);
+
+        // Если оба фильтра пустые, возвращаем все офферы
+        if (empty($title) && empty($companyName)) {
+            $offers = $offersService->getAll();
+        } else {
+            // Учитываем фильтры по заголовку и названию компании
+            $likeConditions = [];
+            if (! empty($title)) {
+                $likeConditions['title'] = $title;
+            }
+
+            $offers = $offersService->getAll([], ['Title' => $title], $companyName);
+        }
 
         $this->view('offers/offers', ['offers' => $offers]);
     }

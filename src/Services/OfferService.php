@@ -9,16 +9,29 @@ class OfferService
 {
     public function __construct(private IDataBase $database) {}
 
-    public function getAll(array $conditions = [], array $likeConditions = []): array
+    public function getAll(array $conditions = [], array $likeConditions = [], ?string $companyName = null): array
     {
 
-        $offers = $this->database->get('offers', $conditions, $likeConditions);
+        if (! empty($companyName)) {
+            $companies = $this->database->get('company', [], ['title' => $companyName]);
 
+            $companyIds = array_map(fn ($company) => $company['id'], $companies)[0];
+
+            if (! empty($companyIds)) {
+                $conditions = ['CompanyId' => $companyIds];
+            } else {
+                return [];
+            }
+        }
+
+        $offers = $this->database->get('offers', [], array_merge($likeConditions, $conditions));
+
+        // Преобразуем данные офферов в объекты Offer
         $offers = array_map(function ($offer) {
             $companies = $this->database->get('company', ['id' => $offer['companyId']]);
 
-            //dd($offer, $companies);
-            return new Offer(id: $offer['id'],
+            return new Offer(
+                id: $offer['id'],
                 title: $offer['title'],
                 salary: $offer['salary'],
                 description: $offer['description'],
